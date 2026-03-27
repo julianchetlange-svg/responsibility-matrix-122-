@@ -33,6 +33,8 @@ th.sub-header{background:#F5C400;color:#1a1a1a;font-size:10px;padding:3px 6px;fo
 td{vertical-align:middle;font-size:11.5px;background:#fff}
 td.col-b{width:88px;padding:3px 6px;white-space:nowrap;color:#555;font-family:monospace;font-size:11px}
 td.col-c{min-width:260px;max-width:340px;padding:3px 8px;line-height:1.4}
+td.col-h{min-width:150px;max-width:200px;padding:3px 8px;font-size:11px;color:#444}
+td.col-i{min-width:280px;max-width:400px;padding:3px 8px;line-height:1.4;font-size:11px;color:#444}
 td.check-cell{width:62px;text-align:center;padding:0}
 td.submittal-cell{width:72px;text-align:center;padding:0}
 tr.row-section td{background:#d6eacc;color:#2d5e20;font-weight:700;font-size:11.5px;padding:4px 8px;border-color:#a8c89a}
@@ -51,7 +53,11 @@ input[type=checkbox].submittal-check{accent-color:#d4a900}
 .counter-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 18px;border-left:1px solid #3B7A2A;cursor:default}
 .counter-chip .c-col{font-size:9px;color:#c8e6b8;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
 .counter-chip .c-num{font-size:17px;font-weight:700;color:#F5C400;line-height:1.1}
+.counter-chip .c-sub{font-size:9px;color:#a8d898;margin-top:1px}
+.divider-row td{height:4px;background:#3B7A2A;padding:0;border:none}
 .search-match td{background:#fffbe0 !important}
+.no-results{text-align:center;padding:24px;color:#888;font-size:13px}
+/* sticky left cols */
 td.col-b,th.col-b{position:sticky;left:0;z-index:2}
 td.col-c,th.col-c{position:sticky;left:90px;z-index:2}
 tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
@@ -60,14 +66,13 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
   .page-header{background:#3B7A2A!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;border-bottom:3px solid #F5C400!important;padding:8px 14px}
   .page-header h1{font-size:13px}
   .toolbar{display:none!important}
-  .counter-bar{background:#2d5e20!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;border-bottom:2px solid #F5C400!important}
-  .counter-chip .c-num{color:#F5C400!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .table-wrap{height:auto!important;overflow:visible!important}
   table{width:100%!important}
   th{background:#3B7A2A!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-size:9px;padding:3px 5px}
   th.sub-header{background:#F5C400!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;color:#1a1a1a!important}
   td{font-size:9.5px;padding:2px 4px}
-  td.col-b,th.col-b,td.col-c,th.col-c{position:static}
+  td.col-b,th.col-b{position:static}
+  td.col-c,th.col-c{position:static}
   tr.row-section td{background:#d6eacc!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   tr:nth-child(even):not(.row-section) td{background:#f8faf5!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   tr.changed-row td{outline:none;background:#fffde6!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -75,21 +80,16 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
   textarea.col-i-input{height:auto!important;overflow:visible!important;font-size:9.5px}
   input[type=checkbox]{width:12px;height:12px}
   .changed-badge{display:none!important}
+  .counter-bar{background:#2d5e20!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;border-bottom:2px solid #F5C400!important}
+  .counter-chip .c-num{color:#F5C400!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
 <body>
-
 <div class="page-header">
-  <div style="display:flex;align-items:center;gap:16px">
-    <svg width="52" height="52" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <rect x="1" y="1" width="50" height="50" fill="none" stroke="#F5C400" stroke-width="3" rx="4"/>
-      <text x="26" y="34" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="24" fill="#F5C400" letter-spacing="1">MC</text>
-    </svg>
-    <div>
-      <h1>Responsibility Matrix — Canyon Lake #122</h1>
-      <div class="sub">McCoy's Building Supply · 187 Star Grass · Spring Branch, Texas 78070 · Created: 3/27/2026</div>
-    </div>
+  <div>
+    <h1>Responsibility Matrix — Canyon Lake #122</h1>
+    <div class="sub">McCoy's Building Supply · 187 Star Grass · Spring Branch, Texas 78070 · Created: 3/27/2026</div>
   </div>
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
     <span class="changed-badge" id="changeBadge">● Unsaved changes</span>
@@ -97,7 +97,6 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
     <button class="btn btn-primary" onclick="saveChanges()">Save / Print</button>
   </div>
 </div>
-
 <div class="toolbar">
   <label>Division:</label>
   <select id="divisionFilter" onchange="doSearch()"><option value="all">All Divisions</option></select>
@@ -107,8 +106,7 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
   <label style="margin-left:6px"><input type="checkbox" id="filterChanged" onchange="doSearch()"> Changed only</label>
   <span style="font-size:11px;color:#999;margin-left:auto">Columns D–G: click checkboxes &nbsp;·&nbsp; Column H: click to edit vendor &nbsp;·&nbsp; Column J: submittal required</span>
 </div>
-
-<div class="counter-bar">
+<div class="counter-bar" id="counterBar">
   <span class="c-label">Task Counts (visible rows):</span>
   <div class="counter-chip"><span class="c-col">GC Furnish</span><span class="c-num" id="cntD">0</span></div>
   <div class="counter-chip"><span class="c-col">GC Install</span><span class="c-num" id="cntE">0</span></div>
@@ -116,8 +114,7 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
   <div class="counter-chip"><span class="c-col">Owner Install</span><span class="c-num" id="cntG">0</span></div>
   <div class="counter-chip"><span class="c-col">Submittal Req.</span><span class="c-num" id="cntJ">0</span></div>
 </div>
-
-<div class="table-wrap">
+<div class="table-wrap" id="tableWrap">
 <table id="mainTable">
 <thead>
 <tr>
@@ -125,7 +122,7 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
   <th class="col-c" rowspan="2">Description</th>
   <th colspan="2">GC</th>
   <th colspan="2">Owner</th>
-  <th rowspan="2" style="min-width:150px">Use Specific Vendor/Supplier ▾</th>
+  <th rowspan="2" style="min-width:150px">Use Specific Vendor/Supplier</th>
   <th rowspan="2" style="min-width:280px">Comments &amp; Notes</th>
   <th rowspan="2" style="width:72px">Submittal Required</th>
 </tr>
@@ -141,8 +138,9 @@ tr.row-section td.col-b,tr.row-section td.col-c{z-index:3}
 </div>
 
 <script>
-const RAW = [{"row":11,"cells":{"B":"1","C":"GENERAL REQUIREMENTS"}},{"row":12,"cells":{"B":"01 32 36","C":"Video Monitoring and Documentation","E":"X","F":"X","H":"TrueLook","I":"McCoy's to supply camera and monitoring service.  GC to supply 110 elec. service and install and remove camera."}},{"row":13,"cells":{"B":"01 45 23","C":"Testing and Inspecting Services","F":"X","H":"UES","I":"McCoy's to furnish testing service and secure contract prior to construction."}},{"row":14,"cells":{"B":"01 52 13","C":"Field Offices and Sheds (construction trailer)","D":"X","E":"X","I":"Furnish construction trailer.  Install temp meter loop and connect to trailer."}},{"row":15,"cells":{"B":"01 52 19","C":"Sanitary Facilities (porta-potties)","D":"X","E":"X","I":"Include hand washing station(s)."}},{"row":16,"cells":{"B":"01 56 26","C":"Temporary Fencing","D":"X","E":"X","I":"Temporary Security fence along limits of construction to secure site during construction.","J":""}},{"row":17,"cells":{"B":"01 57 23","C":"SWPPP & SWPPP Inspections","E":"X","F":"X","H":"EEI","I":"McCoy's to provide SWPPP report.  GC to file NOI, install erosion and sediment controls, and provide weekly inspections."}},{"row":18,"cells":{"B":"01 58 16","C":"Temporary Project Sign (Coming Soon)","F":"X","G":"X","I":"Deliver and install sign.  Re-use existing sign."}},{"row":19,"cells":{"B":"01 74 19","C":"Construction Waste Management (roll-off dumpster)","D":"X","E":"X","I":"Furnish roll-off dumpster(s)."}},{"row":20,"cells":{"B":"2","C":"EXISTING CONDITIONS"}},{"row":21,"cells":{"B":"02 26 00","C":"Hazardous Material Assessment","I":"No existing conditions were identified on Phase 1 ESA.  Assume no assessment."}},{"row":22,"cells":{"B":"02 82 00","C":"Asbestos Remediation","I":"No existing buildings. Assume no remediation."}},{"row":23,"cells":{"B":"3","C":"CONCRETE"}},{"row":24,"cells":{"B":"03 30 00","C":"Cast-in-Place Concrete - Footings","D":"X","E":"X","I":"Concrete footings for light poles.  Coordinate site electrical conduit runs with electrical subcontractor.","J":"Y"}},{"row":25,"cells":{"B":"03 30 00","C":"Cast-in-Place Concrete - Footings","D":"X","E":"X","I":"Concrete footings for CMU wall and CMU fence columns.","J":"Y"}},{"row":26,"cells":{"B":"03 15 19","C":"Cast-in-Place Concrete - Anchors","D":"X","E":"X","I":"Furnish and install anchor bolts.  Size of anchor bolts to be provided by Sunbelt/CT Darnell"}},{"row":27,"cells":{"B":"03 30 00","C":"Metal Building Foundation/Slab","D":"X","E":"X","I":"Foundation drawings to be provided by Sunbelt/CT Darnell"}},{"row":28,"cells":{"B":"03 35 00","C":"Clear Seal Coating","D":"X","E":"X","I":"Ashford Formula on the sales floor and attached warehouse.","J":"Y"}},{"row":29,"cells":{"B":"03 35 00","C":"Floor Polishing by Machinery","D":"X","E":"X","I":"Sales floor only.  Finish and seal all saw cuts.","J":"Y"}},{"row":31,"cells":{"B":"4","C":"MASONRY"}},{"row":32,"cells":{"B":"04 22 23","C":"Rock & Masonry","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Front façade and side wainscots. (provide mock-up of rockwork)."}},{"row":33,"cells":{"B":"04 22 23","C":"Architectural Concrete Unit Masonry (fence columns)","D":"X","E":"X","I":"Cultured stone over CMU fence column assemblies.","J":"Y"}},{"row":34,"cells":{"B":"04 22 23","C":"Architectural Concrete Unit Masonry (fence CMU)","D":"X","E":"X","I":"Splitface CMU fence with cast cap stone.","J":"Y"}},{"row":35,"cells":{"B":"5","C":"METALS"}},{"row":36,"cells":{"B":"05 12 00","C":"Structural Steel Framing","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"All structural and misc. steel required for framing, supporting, and bracing to the PEMB for front façade and wainscot."}},{"row":37,"cells":{"B":"05 12 13","C":"Architecturally-Exposed Structural Steel Framing","D":"","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install the decorative steel truss.","J":"Y"}},{"row":38,"cells":{"B":"05 51 23","C":"Metal Access Ladder","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Roof access ladder with top extension arms and bottom security access hatch/gate.","J":"Y"}},{"row":39,"cells":{"B":"6","C":"WOOD, PLASTICS, & COMPOSITES"}},{"row":40,"cells":{"B":"06 10 00","C":"Rough Carpentry (planks, chocks, MDO shelving)","F":"X","G":"X","H":"McCoy's Carpenters","I":"Wooden planks and chocks for pallet racking, MDO shelving in pigeon hole rack. Refer to architectural plans."}},{"row":41,"cells":{"B":"06 10 00","C":"Rough Carpentry (drive-thru riser rooms)","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"McCoy's Carpenters to perform the wood framing of the drive-thru riser rooms.  Sunbelt/CT Darnell to perform the R-panel cladding."}},{"row":42,"cells":{"B":"06 10 00","C":"Rough Carpentry (STIHL room)","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Wall sheathing on inside of STIHL room. Refer to architectural plans."}},{"row":43,"cells":{"B":"06 10 53","C":"Miscellaneous Rough Carpentry (cut shed)","F":"X","G":"X","H":"McCoy's Carpenters","I":"Work bench in cut shed.  Refer to architectural plans."}},{"row":44,"cells":{"B":"06 22 00","C":"Millwork","D":"X","E":"X","I":"Offices, lunchroom, and janitor's closet.","J":"Y"}},{"row":45,"cells":{"B":"7","C":"THERMAL AND MOISTURE PROTECTION"}},{"row":46,"cells":{"B":"07 21 00","C":"Insulation (inside wooden structures)","D":"X","E":"X","I":"Offices, lunchroom, janitor's closet, data room, restrooms."}},{"row":47,"cells":{"B":"07 21 00","C":"Insulation (drive-thru riser rooms)","D":"X","E":"X","I":"Install all insulation for drive-thru riser room."}},{"row":48,"cells":{"B":"07 21 00","C":"Insulation (inside PEMB)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building."}},{"row":49,"cells":{"B":"07 72 00","C":"Roof Penetrations (plumbing)","G":"X","H":"Sunbelt/CT Darnell","I":"Perform all roof penetrations for all subcontractor trades."}},{"row":50,"cells":{"B":"07 72 13","C":"Manufactured Roof Curbs","D":"X","G":"X","H":"Varies","I":"Aces A/C Supply to supply roof curb drawing.  GC to fabricate roof curbs.  Sunbelt/CT Darnell to install roof curbs.","J":"Y"}},{"row":51,"cells":{"B":"07 72 43","C":"Roof Walk Boards (catwalk)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Grip-strut catwalk product."}},{"row":52,"cells":{"B":"8","C":"OPENINGS"}},{"row":53,"cells":{"B":"08 11 00","C":"Metal Doors and Frames (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Full lite, half lite, and slab walk doors on sales building shell walls and drive-thru.","J":"Y"}},{"row":54,"cells":{"B":"08 11 00","C":"Metal Doors and Frames (interior walls)","D":"X","E":"X","I":"Restroom doors.","J":"Y"}},{"row":55,"cells":{"B":"08 14 00","C":"Wood/Fiberglass Doors","D":"X","E":"X","I":"Offices, lunchroom, janitor's closet, data room, electrical room doors.","J":"Y"}},{"row":56,"cells":{"B":"08 33 00","C":"Overhead Coiling Doors (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Two exterior manually coiling freight doors on building shell in attached warehouse.","J":"Y"}},{"row":57,"cells":{"B":"08 33 00","C":"Overhead Coiling Doors (interior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install Dynaco EntreMatic high speed coiling door.  GC to provide power.","J":"Y"}},{"row":58,"cells":{"B":"08 38 00","C":"Plastic Doors","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Chase brand traffic impact doors between sales floor and warehouse.","J":"Y"}},{"row":59,"cells":{"B":"08 42 29","C":"Automatic Entrance Doors","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install auto sliders with transom on front façade.  GC to provide power.","J":"Y"}},{"row":60,"cells":{"B":"08 51 13","C":"Aluminum Windows (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"One exterior window on building shell at manager's office, and to have one-way tint.  (will need submittal on tint)","J":"Y"}},{"row":61,"cells":{"B":"08 51 13","C":"Aluminum Windows (interior walls)","D":"X","E":"X","I":"Interior windows on office rooms.","J":"Y"}},{"row":62,"cells":{"B":"08 63 00","C":"Metal-Framed Skylights","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building and drive-thru buildings."}},{"row":63,"cells":{"B":"08 67 00","C":"Skylight Protection and Screens","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building only."}},{"row":64,"cells":{"B":"9","C":"FINISHES"}},{"row":65,"cells":{"B":"09 00 00","C":"Finishes","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Finishes on wood framed structures only, in sales building, STIHL room, and drive-thru riser room."}},{"row":66,"cells":{"B":"10","C":"SPECIALTIES"}},{"row":67,"cells":{"B":"10 14 00","C":"Signage (Restroom Signs)","D":"X","E":"X","I":"Restroom ADA signage, in the color light gray.","J":"Y"}},{"row":68,"cells":{"B":"10 14 00","C":"Signage (exterior branding/logo signs)","F":"X","G":"X","H":"Sign Crafters","I":"Sign Crafters to furnish and install exterior branding signage and address numbers.  GC to furnish and install conduits and conductors to signs requiring power."}},{"row":69,"cells":{"B":"10 14 00","C":"Signage (exterior emergency/fire signs)","D":"","E":"","F":"X","G":"X","H":"1st Fire Protection","I":"Emergency, fire department, FDC, etc. signage.","J":"Y"}},{"row":70,"cells":{"B":"10 14 00","C":"Signage (exterior ADA)","D":"X","E":"X","I":"Parking lot ADA signage.","J":"Y"}},{"row":71,"cells":{"B":"10 21 13","C":"Toilet Compartments","D":"X","E":"X","H":"ASI Global","I":"Phenolic resin panels.","J":"Y"}},{"row":72,"cells":{"B":"10 26 16","C":"Wall and Door Protection (bumper guards)","D":"X","E":"X","I":"Wall mounted door handle bumpers.  Finish to be 26D.","J":"Y"}},{"row":73,"cells":{"B":"10 28 14","C":"Baby Changing Stations","D":"","E":"","F":"X","G":"X","H":"Koala Kare","I":"McCoy's Carpenters to furnish and install baby changing stations.","J":""}},{"row":74,"cells":{"B":"10 40 00","C":"Safety Specialties","D":"","E":"","F":"X","G":"X","H":"1st Fire Protection","I":"Includes Knox Box, fire extinguishers, cabinet.","J":"Y"}},{"row":75,"cells":{"B":"10 50 00","C":"Storage Specialties (bolt down safe)","D":"X","E":"","G":"X","H":"Stealth","I":"GC to provide bolt down safe.  McCoy's Carpenters to install bolt down safe.","J":"Y"}},{"row":76,"cells":{"B":"10 55 00","C":"Postal Specialties","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Furnish and install mailbox per USPS instructions.","J":""}},{"row":77,"cells":{"B":"10 56 29","C":"Storage Racks","F":"X","G":"X","H":"EA Construction","I":"McCoy's to furnish and install custom metal racking (culvert & stabbing pipe, U-frames racks, and X-frames racks)."}},{"row":78,"cells":{"B":"11","C":"EQUIPMENT"}},{"row":79,"cells":{"B":"11 11 00","C":"Vehicle Service Equipment (air compressor)","D":"X","E":"X","I":"Furnish and install small compressor, ready-to-go, off the shelf, and a 12\" chop saw.","J":"Y"}},{"row":80,"cells":{"B":"11 12 00","C":"Parking Facility Equipment (yard bell)","D":"X","E":"X","F":"X","I":"McCoy's to furnish diagram.  GC to furnish and install equipment, and provide power.","J":"Y"}},{"row":81,"cells":{"B":"11 28 00","C":"Office Equipment","F":"X","G":"X","I":"McCoy's to furnish and install computers, printers, copiers, etc."}},{"row":82,"cells":{"B":"11 30 13","C":"Residential Appliances","D":"X","E":"X","I":"Furnish refrigerator (black, 36\", freezer on bottom, no ice maker, microwave, black, 1,000 watt, 1.6 cf).","J":"Y"}},{"row":83,"cells":{"B":"12","C":"FURNISHINGS"}},{"row":84,"cells":{"B":"12 41 13","C":"Desk Accessories (for 10 22 00 Millwork)","D":"X","E":"X","H":"Mount-It!","I":"Furnish and install pencil trays and work surface grommets in the color black.","J":"Y"}},{"row":85,"cells":{"B":"12 50 00","C":"Office Accessories","F":"X","G":"X","I":"McCoy's to furnish and install chairs, tables, lockers, etc."}},{"row":86,"cells":{"B":"13","C":"SPECIAL CONSTRUCTION"}},{"row":87,"cells":{"B":"13 34 23","C":"Metal Building Systems","E":"X","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"PEMB sales/warehouse and rack supported canopies and ancillary racking components.  GC to coordinate installation with other trades."}},{"row":88,"cells":{"B":"21","C":"FIRE SUPPRESSION"}},{"row":89,"cells":{"B":"21 13 00","C":"Fire-Suppression Sprinkler Systems","F":"X","G":"X","H":"1st Fire Protection","I":"Regular wet system and dry nitrogen systems.","J":"Y"}},{"row":90,"cells":{"B":"22","C":"PLUMBING"}},{"row":91,"cells":{"B":"22 00 00","C":"Plumbing","D":"X","E":"X","I":"Sunbelt/CT Darnell to perform all roof penetrations due to warranty on roof.","J":"Y"}},{"row":92,"cells":{"B":"23","C":"HVAC"}},{"row":93,"cells":{"B":"23 70 00","C":"HVAC Equipment","D":"X","E":"X","I":"GC to procure and install all equipment.","J":"Y"}},{"row":94,"cells":{"B":"26","C":"ELECTRICAL"}},{"row":95,"cells":{"B":"26 00 00","C":"Electrical","D":"X","E":"X","H":"MTZ Electrical","I":"Furnished and installed by GC unless specifically identified, and to include the following.","J":"Y"}},{"row":96,"cells":{"B":"26 09 00","C":"Instrumentation and Controls for EMS","D":"X","E":"X","H":"TCS & MTZ","I":"GC to coordinate installation between TCS and MTZ.","J":"Y"}},{"row":97,"cells":{"B":"26 10 00","C":"Electrical for Millwork & FFE (counters & fixtures)","D":"X","E":"X","H":"McCoy's & MTZ","I":"MTZ to provide and install power after McCoy's (Merchandising Dept.) installs sales counters and store fixtures."}},{"row":98,"cells":{"B":"26 33 00","C":"Battery Equipment (UPS)","E":"X","F":"X","H":"McCoy's & MTZ","I":"McCoy's (I.S. Dept.) to provide UPS.  MTZ to install and energize UPS in data rack."}},{"row":99,"cells":{"B":"26 50 00","C":"Lighting","D":"X","E":"X","H":"MHSC & MTZ","I":"GC to procure all interior & exterior light fixtures and light poles from MHSC.  MTZ to supply and install all conduits and conductors, and install all light fixtures and light poles.  GC to coordinate installation between MHSC and MTZ.","J":"Y"}},{"row":100,"cells":{"B":"27","C":"COMMUNICATIONS"}},{"row":101,"cells":{"B":"27 00 00","C":"Communications","D":"X","E":"X","H":"DigiCom","I":"Furnish and install all data cabling.","J":""}},{"row":102,"cells":{"B":"27 05 28","C":"Pathways for Communication Systems (roof jack)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Furnish and install SBC Industries roof jack and perform all roof penetrations.","J":"Y"}},{"row":103,"cells":{"B":"27 15 00","C":"A.P. Devices","E":"X","F":"X","H":"DigiCom & McCoy's","I":"DigiCom to install all A.P. devices.  McCoy's (I.S. Dept.) to furnish all A.P. devices."}},{"row":104,"cells":{"B":"27 21 00","C":"Data Communications Network Equipment (data rack)","D":"X","E":"X","F":"X","G":"X","H":"DigiCom & McCoy's","I":"DigiCom to furnish and install data rack and patch panels.  McCoy's (I.S. Dept.) to furnish and install all other rack components.","J":"Y"}},{"row":105,"cells":{"B":"27 21 29","C":"Amplifiers","D":"X","E":"X","H":"DigiCom","I":"Furnish and install all amplifiers and wiring.","J":"Y"}},{"row":106,"cells":{"B":"28","C":"ELECTRONIC SAFETY AND SECURITY"}},{"row":107,"cells":{"B":"28 00 00","C":"Electronic Safety and Security","F":"X","G":"X","H":"1st Fire Protection","I":"FA/BA systems.","J":"Y"}},{"row":108,"cells":{"B":"31","C":"EARTHWORK"}},{"row":109,"cells":{"B":"31 00 00","C":"Earthwork","D":"X","E":"X","I":"To be furnished and installed by GC."}},{"row":110,"cells":{"B":"32","C":"EXTERIOR IMPROVEMENTS"}},{"row":111,"cells":{"B":"32 00 00","C":"Exterior Improvements","D":"X","E":"X","I":"To be furnished and installed by GC to include the following."}},{"row":112,"cells":{"B":"32 17 13","C":"Rubber Parking Bumpers","D":"X","E":"X","H":"ULINE","I":"ULINE H-4608 in the color black and yellow, blue and white for ADA parking areas.","J":"Y"}},{"row":113,"cells":{"B":"32 17 23","C":"Pavement Markings","D":"X","E":"X","I":"All striping on site and in warehouse and drive-thru buildings.","J":"Y"}},{"row":114,"cells":{"B":"32 31 13","C":"Permanent Perimeter Security Fence and Gates","D":"X","E":"X","H":"Pro-Access Systems","I":"Cantilever and swing gates to be Pro-Access Systems gates.","J":"Y"}},{"row":115,"cells":{"B":"32 80 00","C":"Irrigation","D":"X","E":"X","J":"Y"}},{"row":116,"cells":{"B":"32 90 90","C":"Plantings","D":"X","E":"X","J":"Y"}},{"row":121,"cells":{"B":"32 31 19","C":"Decorative Metal Fences and Gates"}},{"row":123,"cells":{"B":"32 31 26","C":"Wire Fences and Gates","D":"X","E":"X","I":"Wire fences and steel railings on west side of property.","J":"Y"}},{"row":124,"cells":{"B":"32 32 13","C":"Cast-in-Place Concrete Retaining Walls","D":"X","E":"X","I":"Concrete retaining walls and footings.","J":"Y"}},{"row":30,"cells":{"B":"32 17 43","C":"Bollards","D":"X","E":"X","I":"Concrete fill steel bollards, and paint in the color safety yellow."}},{"row":117,"cells":{"B":"33","C":"UTILITIES"}},{"row":118,"cells":{"B":"33 00 00","C":"Utilities","D":"X","E":"X","I":"Furnished and installed by GC to include the following.","J":"Y"}},{"row":119,"cells":{"B":"33 10 00","C":"Water Utilities","D":"X","E":"X","J":"Y"}},{"row":120,"cells":{"B":"33 12 33","C":"Water Utility Metering","D":"","E":"X","F":"X","H":"Texas Water","I":"McCoy's to pay all fees.  GC to arrange and install the meter."}},{"row":122,"cells":{"B":"33 30 00","C":"Sanitary Sewage Utilities","D":"X","E":"X","J":"Y"}},{"row":125,"cells":{"B":"33 41 00","C":"Storm Drainage","D":"X","E":"X","J":"Y"}},{"row":126,"cells":{"B":"33 70 00","C":"Electrical Utilities","D":"X","E":"X","H":"PEC","I":"Pedernales Electric Cooperative should be the provider."}}];
+const RAW = [{"row":11,"cells":{"B":"1","C":"GENERAL REQUIREMENTS"}},{"row":12,"cells":{"B":"01 32 36","C":"Video Monitoring and Documentation","E":"X","F":"X","H":"TrueLook","I":"McCoy's to supply camera and monitoring service.  GC to supply 110 elec. service and install and remove camera."}},{"row":13,"cells":{"B":"01 45 23","C":"Testing and Inspecting Services","F":"X","H":"UES","I":"McCoy's to furnish testing service and secure contract prior to construction."}},{"row":14,"cells":{"B":"01 52 13","C":"Field Offices and Sheds (construction trailer)","D":"X","E":"X","I":"Furnish construction trailer.  Install temp meter loop and connect to trailer."}},{"row":15,"cells":{"B":"01 52 19","C":"Sanitary Facilities (porta-potties)","D":"X","E":"X","I":"Include hand washing station(s)."}},{"row":16,"cells":{"B":"01 56 26","C":"Temporary Fencing","D":"X","E":"X","I":"Temporary Security fence along limits of contruction to secure site during constuction.","J":""}},{"row":17,"cells":{"B":"01 57 23","C":"SWPPP & SWPPP Inspections","E":"X","F":"X","H":"EEI","I":"McCoy's to provide SWPPP report.  GC to file NOI, install erosion and sediment controls, and provide weekly inspections."}},{"row":18,"cells":{"B":"01 58 16","C":"Temporary Project Sign (Coming Soon)","F":"X","G":"X","I":"Deliver and install sign.  Re-use existing sign."}},{"row":19,"cells":{"B":"01 74 19","C":"Construction Waste Management (roll-off dumpster)","D":"X","E":"X","I":"Furnish roll-off dumpster(s)."}},{"row":20,"cells":{"B":"2","C":"EXISTING CONDITIONS"}},{"row":21,"cells":{"B":"02 26 00","C":"Hazardous Material Assessment","I":"No existing conditions were identified on Phase 1 ESA.  Assume no assessment."}},{"row":22,"cells":{"B":"02 82 00","C":"Asbestos Remediation","I":"No existing buildings. Assume no remediation."}},{"row":23,"cells":{"B":"3","C":"CONCRETE"}},{"row":24,"cells":{"B":"03 30 00","C":"Cast-in-Place Concrete - Footings","D":"X","E":"X","I":"Concrete footings for light poles.  Coordinate site electrical conduit runs with electrical subcontractor.","J":"Y"}},{"row":25,"cells":{"B":"03 30 00","C":"Cast-in-Place Concrete - Footings","D":"X","E":"X","I":"Concrete footings for CMU wall and CMU fence columns.","J":"Y"}},{"row":26,"cells":{"B":"03 15 19","C":"Cast-in-Place Concrete  - Anchors","D":"X","E":"X","I":"Furnish and install anchor bolts.  Size of anchor bolts to be provided by Sunbelt/CT Darnell"}},{"row":27,"cells":{"B":"03 30 00","C":"Metal Building Foundation/Slab","D":"X","E":"X","I":"Foundation drawings to be provided by Sunbelt/CT Darnell"}},{"row":28,"cells":{"B":"03 35 00","C":"Clear Seal Coating","D":"X","E":"X","I":"Ashford Formula on the sales floor and attached warehouse.","J":"Y"}},{"row":29,"cells":{"B":"03 35 00","C":"Floor Polishing by Machinery","D":"X","E":"X","I":"Sales floor only.  Finish and seal all saw cuts.","J":"Y"}},{"row":31,"cells":{"B":"4","C":"MASONRY"}},{"row":32,"cells":{"B":"04 22 23","C":"Rock & Masonry","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Front façade and side wainscots. (provide mock-up of rockwork)."}},{"row":33,"cells":{"B":"04 22 23","C":"Architectural Concrete Unit Masonry (fence columns)","D":"X","E":"X","I":"Cultered stone over CMU fence column assemblies.","J":"Y"}},{"row":34,"cells":{"B":"04 22 23","C":"Architectural Concrete Unit Masonry (fence CMU)","D":"X","E":"X","I":"Splitface CMU fence with cast cap stone.","J":"Y"}},{"row":35,"cells":{"B":"5","C":"METALS"}},{"row":36,"cells":{"B":"05 12 00","C":"Structural Steel Framing","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"All structural and misc. steel required for framing, supporting, and bracing to the PEMB for front façade and wainscot."}},{"row":37,"cells":{"B":"05 12 13","C":"Architecturally-Exposed Structural Steel Framing","D":"","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install the decorative steel truss.","J":"Y"}},{"row":38,"cells":{"B":"05 51 23","C":"Metal Access Ladder","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Roof access ladder with top extension arms and bottom security access hatch/gate.","J":"Y"}},{"row":39,"cells":{"B":"6","C":"WOOD, PLASTICS, & COMPOSITES"}},{"row":40,"cells":{"B":"06 10 00","C":"Rough Carpentry (planks, chocks, MDO shelving)","F":"X","G":"X","H":"McCoy's Carpenters","I":"Wooden planks and chocks for pallet racking, MDO shelving in pigeon hole rack. Refer to architectural plans."}},{"row":41,"cells":{"B":"06 10 00","C":"Rough Carpentry (drive-thru riser rooms)","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"McCoy's Carpenters to perform the wood framing of the drive-thru riser rooms.  Sunbelt/CT Darnell to perform the R-panel cladding."}},{"row":42,"cells":{"B":"06 10 00","C":"Rough Carpentry (STIHL room)","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Wall sheathing on inside of STIHL room. Refer to architectural plans."}},{"row":43,"cells":{"B":"06 10 53","C":"Miscellaneous Rough Carpentry (cut shed)","F":"X","G":"X","H":"McCoy's Carpenters","I":"Work bench in cut shed.  Refer to architectural plans."}},{"row":44,"cells":{"B":"06 22 00","C":"Millwork","D":"X","E":"X","I":"Offices, lunchroom, and janitor's closet.","J":"Y"}},{"row":45,"cells":{"B":"7","C":"THERMAL AND MOISTURE PROTECTION"}},{"row":46,"cells":{"B":"07 21 00","C":"Insulation (inside wooden structures)","D":"X","E":"X","I":"Offices, lunchroom, janitor's closet, data room, restrooms."}},{"row":47,"cells":{"B":"07 21 00","C":"Insulation (drive-thru riser rooms)","D":"X","E":"X","I":"Install all insulation for drive-thru riser room."}},{"row":48,"cells":{"B":"07 21 00","C":"Insulation (inside PEMB)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building."}},{"row":49,"cells":{"B":"07 72 00","C":"Roof penetrations (plumbing)","G":"X","H":"Sunbelt/CT Darnell","I":"Perform all roof penetrations for all subcontractor trades."}},{"row":50,"cells":{"B":"07 72 13","C":"Manufactured Roof Curbs","D":"X","G":"X","H":"Varies","I":"Aces A/C Supply to supply roof curb drawing.  GC to fabricate roof curbs.  Sunbelt/CT Darnell to install roof curbs.","J":"Y"}},{"row":51,"cells":{"B":"07 72 43","C":"Roof Walk Boards (cat walk)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Grip-strut cat-walk product."}},{"row":52,"cells":{"B":"8","C":"OPENINGS"}},{"row":53,"cells":{"B":"08 11 00","C":"Metal Doors and Frames (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Full lite, half lite, and slab walk doors on sales building shell walls and drive-thru.","J":"Y"}},{"row":54,"cells":{"B":"08 11 00","C":"Metal Doors and Frames (interior walls)","D":"X","E":"X","I":"Restroom doors.","J":"Y"}},{"row":55,"cells":{"B":"08 14 00","C":"Wood/Fiberglass Doors","D":"X","E":"X","I":"Offices, lunchroom, janitor's closet, data room, electrical room doors.","J":"Y"}},{"row":56,"cells":{"B":"08 33 00","C":"Overhead Coiling Doors (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Two exterior manually coiling freight doors on building shell in attached warehouse.","J":"Y"}},{"row":57,"cells":{"B":"08 33 00","C":"Overhead Coiling Doors (interior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install Dynaco EntreMatic high speed coiling door.  GC to provide power.","J":"Y"}},{"row":58,"cells":{"B":"08 38 00","C":"Plastic Doors","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Chase brand traffic impact doors between sales floor and warehouse.","J":"Y"}},{"row":59,"cells":{"B":"08 42 29","C":"Automatic Entrance Doors","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sunbelt/CT Darnell to furnish and install auto sliders with transom on front façade.  GC to provide power.","J":"Y"}},{"row":60,"cells":{"B":"08 51 13","C":"Aluminum Windows (exterior walls)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"One exterior window on building shell at manager's office, and to have one-way tint.  (will need submittal on tint)","J":"Y"}},{"row":61,"cells":{"B":"08 51 13","C":"Aluminum Windows (interior walls)","D":"X","E":"X","I":"Interior windows on office rooms.","J":"Y"}},{"row":62,"cells":{"B":"08 63 00","C":"Metal-Framed Skylights","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building and drive-thru buildings."}},{"row":63,"cells":{"B":"08 67 00","C":"Skylight Protection and Screens","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Sales building only."}},{"row":64,"cells":{"B":"9","C":"FINISHES"}},{"row":65,"cells":{"B":"09 00 00","C":"Finishes","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Finishes on wood framed structures only, in sales building, STIHL room, and drive-thru riser room."}},{"row":66,"cells":{"B":"10","C":"SPECIALTIES"}},{"row":67,"cells":{"B":"10 14 00","C":"Signage (Restroom Signs)","D":"X","E":"X","I":"Restroom ADA signage, in the color light gray.","J":"Y"}},{"row":68,"cells":{"B":"10 14 00","C":"Signage (exterior branding/logo signs)","F":"X","G":"X","H":"Sign Crafters","I":"Sign Crafters to furnish and install exterior branding signage and address numbers.  CG to furnish and install conduits and conductors to signs requiring power."}},{"row":69,"cells":{"B":"10 14 00","C":"Signage (exterior emergency/fire signs)","D":"","E":"","F":"X","G":"X","H":"1st Fire Protection","I":"Emergency, fire department, FDC, etc. signage.","J":"Y"}},{"row":70,"cells":{"B":"10 14 00","C":"Signage (exterior ADA)","D":"X","E":"X","I":"Parking lot ADA signage.","J":"Y"}},{"row":71,"cells":{"B":"10 21 13","C":"Toilet Compartments","D":"X","E":"X","H":"ASI Global","I":"Phenolic resin panels.","J":"Y"}},{"row":72,"cells":{"B":"10 26 16","C":"Wall and Door Protection (bumper guards)","D":"X","E":"X","I":"Wall mounted door handle bumpers.  Finish to be 26D.","J":"Y"}},{"row":73,"cells":{"B":"10 28 14","C":"Baby Changing Stations","D":"","E":"","F":"X","G":"X","H":"Koala Kare","I":"McCoy's Carpenters to furnish and install baby changing stations.","J":""}},{"row":74,"cells":{"B":"10 40 00","C":"Safety Specialties","D":"","E":"","F":"X","G":"X","H":"1st Fire Protection","I":"Includes Knox Box, fire extinguishers, cabinet.","J":"Y"}},{"row":75,"cells":{"B":"10 50 00","C":"Storage Specialties (bolt down safe)","D":"X","E":"","G":"X","H":"Stealth","I":"GC to provide bolt down safe.  McCoy's Carpenters to install bolt down safe.","J":"Y"}},{"row":76,"cells":{"B":"10 55 00","C":"Postal Specialties","D":"","E":"","F":"X","G":"X","H":"McCoy's Carpenters","I":"Furnish and install mailbox per USPS instructions.","J":""}},{"row":77,"cells":{"B":"10 56 29","C":"Storage Racks","F":"X","G":"X","H":"EA Construction","I":"McCoy's to furnish and install custom metal racking (culvert & stabbing pipe, U-frames racks, and X-frames racks."}},{"row":78,"cells":{"B":"11","C":"EQUIPMENT"}},{"row":79,"cells":{"B":"11 11 00","C":"Vehicle Service Equipment (air compressor)","D":"X","E":"X","I":"Furnish and install small compressor, ready-to-go, off the shelf, and a 12\" chop saw.","J":"Y"}},{"row":80,"cells":{"B":"11 12 00","C":"Parking Facility Equipment (yard bell)","D":"X","E":"X","F":"X","I":"McCoy's to furnish diagram.  CG to furnish and install equipment, and provide power.","J":"Y"}},{"row":81,"cells":{"B":"11 28 00","C":"Office Equipment","F":"X","G":"X","I":"McCoy's to furnish and install computers, printers, copiers, etc."}},{"row":82,"cells":{"B":"11 30 13","C":"Residential Appliances","D":"X","E":"X","I":"Furnish refrigerator (black, 36\", freezer on bottom, no ice maker, microwave, black, 1,000 watt, 1.6 cf).","J":"Y"}},{"row":83,"cells":{"B":"12","C":"FURNISHINGS"}},{"row":84,"cells":{"B":"12 41 13","C":"Desk Accessories (for 10 22 00 Millwork)","D":"X","E":"X","H":"Mount-It!","I":"Furnish and install pencil trays and work surface grommets in the color black.","J":"Y"}},{"row":85,"cells":{"B":"12 50 00","C":"Office Accessories","F":"X","G":"X","I":"McCoy's to furnish and install chairs, tables, lockers, etc."}},{"row":86,"cells":{"B":"13","C":"SPECIAL CONSTRUCTION"}},{"row":87,"cells":{"B":"13 34 23","C":"Metal Building Systems","E":"X","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"PEMB sales/warehouse and rack supported canopies and ancillary racking components.  GC to coordinate installation with other trades."}},{"row":88,"cells":{"B":"21","C":"FIRE SUPPRESSION"}},{"row":89,"cells":{"B":"21 13 00","C":"Fire-Suppression Sprinkler Systems","F":"X","G":"X","H":"1st Fire Protection","I":"Regular wet system and dry nitrogen systems.","J":"Y"}},{"row":90,"cells":{"B":"22","C":"PLUMBING"}},{"row":91,"cells":{"B":"22 00 00","C":"Plumbing","D":"X","E":"X","I":"Sunbelt/CT Darnell to perform all roof penetrations due to warranty on roof.","J":"Y"}},{"row":92,"cells":{"B":"23","C":"HVAC"}},{"row":93,"cells":{"B":"23 70 00","C":"HVAC Equipment","D":"X","E":"X","I":"GC to procure and install all equipment.","J":"Y"}},{"row":94,"cells":{"B":"26","C":"ELECTRICAL"}},{"row":95,"cells":{"B":"26 00 00","C":"Electrical","D":"X","E":"X","H":"MTZ Electrical","I":"Furnished and installed by GC unless specifically identified, and to include the following.","J":"Y"}},{"row":96,"cells":{"B":"26 09 00","C":"Instrumentation and Controls for EMS","D":"X","E":"X","H":"TCS & MTZ","I":"GC to coordinate installation between TCS and MTZ.","J":"Y"}},{"row":97,"cells":{"B":"26 10 00","C":"Electrical for Millwork & FFE (counters & fixtures)","D":"X","E":"X","H":"McCoy's & MTZ","I":"MTZ to provide and install power after McCoy's (Merchandising Dept.) installs sales counters and store fixtures."}},{"row":98,"cells":{"B":"26 33 00","C":"Battery Equipment (UPS)","E":"X","F":"X","H":"McCoy's & MTZ","I":"McCoy's (I.S. Dept.) to provide UPS.  MTZ to install and energize UPS in data rack."}},{"row":99,"cells":{"B":"26 50 00","C":"Lighting","D":"X","E":"X","H":"MHSC & MTZ","I":"GC to procure all interior & exterior light fixtures and light poles from MHSC.  MTZ to supply and install all conduits and conductors, and install all light fixtures and light poles.  GC to coordinate installation between MHSC and MTZ.","J":"Y"}},{"row":100,"cells":{"B":"27","C":"COMMUNICATIONS"}},{"row":101,"cells":{"B":"27 00 00","C":"Communications","D":"X","E":"X","H":"DigiCom","I":"Furnish and install all data cabling.","J":""}},{"row":102,"cells":{"B":"27 05 28","C":"Pathways for Communication Systems (roof jack)","F":"X","G":"X","H":"Sunbelt/CT Darnell","I":"Furnish and install SBC Industries roof jack and perform all roof penetrations.","J":"Y"}},{"row":103,"cells":{"B":"27 15 00","C":"A.P. Devices","E":"X","F":"X","H":"DigiCom & McCoy's","I":"DigiCom to install all A.P. devices.  McCoy's (I.S. Dept.) to furnish all A.P. devices."}},{"row":104,"cells":{"B":"27 21 00","C":"Data Communications Network Equipment (data rack)","D":"X","E":"X","F":"X","G":"X","H":"DigiCom & McCoy's","I":"DigiCom to furnish and install data rack and patch panels.  McCoy's (I.S. Dept.) to furnish and install all other rack components.","J":"Y"}},{"row":105,"cells":{"B":"27 21 29","C":"Amplifiers","D":"X","E":"X","H":"DigiCom","I":"Furnish and install all amplifiers and wiring.","J":"Y"}},{"row":106,"cells":{"B":"28","C":"ELECTRONIC SAFETY AND SECURITY"}},{"row":107,"cells":{"B":"28 00 00","C":"Electronic Safety and Security","F":"X","G":"X","H":"1st Fire Protection","I":"FA/BA systems.","J":"Y"}},{"row":108,"cells":{"B":"31","C":"EARTHWORK"}},{"row":109,"cells":{"B":"31 00 00","C":"Earthwork","D":"X","E":"X","I":"To be furnished and installed by GC."}},{"row":110,"cells":{"B":"32","C":"EXTERIOR IMPROVEMENTS"}},{"row":111,"cells":{"B":"32 00 00","C":"Exterior Improvements","D":"X","E":"X","I":"To be furnished and installed by GC to include the following."}},{"row":112,"cells":{"B":"32 17 13","C":"Rubber Parking Bumpers","D":"X","E":"X","H":"ULINE","I":"ULINE H-4608 in the color black and yellow, blue and white for ADA parking areas.","J":"Y"}},{"row":113,"cells":{"B":"32 17 23","C":"Pavement Markings","D":"X","E":"X","I":"All striping on site and in warehouse and drive-thru buildings.","J":"Y"}},{"row":114,"cells":{"B":"32 31 13","C":"Permanent Perimeter Security Fence and Gates","D":"X","E":"X","H":"Pro-Access Systems","I":"Cantilever and swing gates to be Pro-Access Systems gates.","J":"Y"}},{"row":115,"cells":{"B":"32 80 00","C":"Irrigation","D":"X","E":"X","J":"Y"}},{"row":116,"cells":{"B":"32 90 90","C":"Plantings","D":"X","E":"X","J":"Y"}},{"row":121,"cells":{"B":"32 31 19","C":"Decorative Metal Fences and Gates"}},{"row":123,"cells":{"B":"32 31 26","C":"Wire Fences and Gates","D":"X","E":"X","I":"Wire fences and steel railings on west side of property.","J":"Y"}},{"row":124,"cells":{"B":"32 32 13","C":"Cast-in-Place Concrete Retaining Walls","D":"X","E":"X","I":"Concrete retaining walls and footings.","J":"Y"}},{"row":30,"cells":{"B":"32 17 43","C":"Bollards","D":"X","E":"X","I":"Concrete fill steel bollards, and paint in the color safety yellow."}},{"row":117,"cells":{"B":"33","C":"UTILITIES"}},{"row":118,"cells":{"B":"33 00 00","C":"Utilities","D":"X","E":"X","I":"Furnished and installed by GC to include the following.","J":"Y"}},{"row":119,"cells":{"B":"33 10 00","C":"Water Utilities","D":"X","E":"X","J":"Y"}},{"row":120,"cells":{"B":"33 12 33","C":"Water Utility Metering","D":"","E":"X","F":"X","H":"Texas Water","I":"McCoy's to pay all fees.  GC to arrange and install the meter."}},{"row":122,"cells":{"B":"33 30 00","C":"Sanitary Sewage Utilities","D":"X","E":"X","J":"Y"}},{"row":125,"cells":{"B":"33 41 00","C":"Storm Drainage","D":"X","E":"X","J":"Y"}},{"row":126,"cells":{"B":"33 70 00","C":"Electrical Utilities","D":"X","E":"X","H":"PEC","I":"Pedernales Electric Cooperative should be the provider."}}];
 
+// State: track edits per row
 const state = {};
 RAW.forEach(r => {
   state[r.row] = {
@@ -162,33 +160,52 @@ RAW.forEach(r => {
   };
 });
 
+// A row is a section header if it has a numeric-only B value (like "1","31") OR has no B and no CSI-style code
+// More robust: a section has B that is a plain integer string, OR it's in our known section row numbers
 const SECTION_ROWS = new Set();
 RAW.forEach(r => {
   const b = (r.cells.B||'').toString().trim();
+  // Section if B is a plain integer (no spaces, no letters)
   if(b && /^\d+$/.test(b)) SECTION_ROWS.add(r.row);
 });
 
-function isSection(r){ return SECTION_ROWS.has(r.row); }
-function isChanged(n){ const s=state[n]; return s.D!==s.origD||s.E!==s.origE||s.F!==s.origF||s.G!==s.origG||s.H!==s.origH||s.J!==s.origJ; }
-function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function autoResize(el){ el.style.height='auto'; el.style.height=el.scrollHeight+'px'; }
-
-const DIVISIONS=[];
-RAW.forEach(r=>{ if(isSection(r)&&r.cells.C) DIVISIONS.push({key:String(r.row),label:(r.cells.B?r.cells.B+' — ':'')+r.cells.C}); });
-const divSel=document.getElementById('divisionFilter');
-DIVISIONS.forEach(d=>{ const o=document.createElement('option'); o.value=d.key; o.textContent=d.label; divSel.appendChild(o); });
-
-function updateBadge(){
-  document.getElementById('changeBadge').style.display = RAW.some(r=>!isSection(r)&&isChanged(r.row)) ? 'inline-block' : 'none';
+function isSection(r){
+  return SECTION_ROWS.has(r.row);
 }
+
+function isChanged(rowNum){
+  const s = state[rowNum];
+  return s.D!==s.origD||s.E!==s.origE||s.F!==s.origF||s.G!==s.origG||s.H!==s.origH||s.J!==s.origJ;
+}
+
+// Build division list using section row numbers as keys (avoids B-value ambiguity)
+const DIVISIONS = [];
+RAW.forEach(r => {
+  if(isSection(r) && r.cells.C) {
+    DIVISIONS.push({ key: String(r.row), label: (r.cells.B ? r.cells.B + ' — ' : '') + r.cells.C });
+  }
+});
+const divSel = document.getElementById('divisionFilter');
+DIVISIONS.forEach(d => {
+  const o = document.createElement('option');
+  o.value = d.key;
+  o.textContent = d.label;
+  divSel.appendChild(o);
+});
+function autoResize(el){el.style.height='auto';el.style.height=el.scrollHeight+'px';}
 
 function updateCounters(){
   let d=0,e=0,f=0,g=0,j=0;
   document.querySelectorAll('tr[data-row]').forEach(tr=>{
-    const n=+tr.dataset.row;
-    if(isSection({row:n})) return;
-    const s=state[n]; if(!s) return;
-    if(s.D)d++; if(s.E)e++; if(s.F)f++; if(s.G)g++; if(s.J)j++;
+    const rowNum=+tr.dataset.row;
+    if(isSection({row:rowNum,cells:{B:''}})) return;
+    const s=state[rowNum];
+    if(!s) return;
+    if(s.D) d++;
+    if(s.E) e++;
+    if(s.F) f++;
+    if(s.G) g++;
+    if(s.J) j++;
   });
   document.getElementById('cntD').textContent=d;
   document.getElementById('cntE').textContent=e;
@@ -197,100 +214,154 @@ function updateCounters(){
   document.getElementById('cntJ').textContent=j;
 }
 
-function markRow(n){
-  const tr=document.querySelector(`tr[data-row="${n}"]`); if(!tr) return;
-  tr.classList.toggle('changed-row', isChanged(n));
+function updateBadge(){
+  const anyChanged = RAW.some(r=>!isSection(r) && isChanged(r.row));
+  document.getElementById('changeBadge').style.display = anyChanged ? 'inline-block' : 'none';
 }
 
 function buildTable(filter='', changedOnly=false, divisionKey='all'){
-  const tbody=document.getElementById('tbody');
+  const tbody = document.getElementById('tbody');
   tbody.innerHTML='';
-  const q=filter.toLowerCase();
-  let activeDivKey=null, inSelectedDiv=(divisionKey==='all');
+  const q = filter.toLowerCase();
 
-  RAW.forEach(r=>{
-    const sec=isSection(r), cells=r.cells, s=state[r.row];
-    const changed=!sec&&isChanged(r.row);
+  // Determine which rows belong to the selected division
+  let activeDivKey = null; // tracks current section row number as string
+  let inSelectedDiv = (divisionKey === 'all');
 
-    if(sec){ activeDivKey=String(r.row); inSelectedDiv=(divisionKey==='all')||(activeDivKey===divisionKey); }
+  RAW.forEach(r => {
+    const sec = isSection(r);
+    const cells = r.cells;
+    const s = state[r.row];
+    const changed = !sec && isChanged(r.row);
+
+    // Track current division using row number as the stable key
+    if(sec) {
+      activeDivKey = String(r.row);
+      inSelectedDiv = (divisionKey === 'all') || (activeDivKey === divisionKey);
+    }
+
+    // Skip rows not in selected division
     if(!inSelectedDiv) return;
-    if(changedOnly&&!changed&&!sec) return;
-    if(q&&!sec){ if(!((cells.C||'')+(cells.I||'')+(cells.H||'')).toLowerCase().includes(q)) return; }
 
-    const tr=document.createElement('tr');
-    tr.dataset.row=r.row;
+    if(changedOnly && !changed && !sec) return;
+
+    // Search filter
+    if(q && !sec){
+      const haystack = ((cells.C||'')+(cells.I||'')+(cells.H||'')).toLowerCase();
+      if(!haystack.includes(q)) return;
+    }
+
+    const tr = document.createElement('tr');
+    tr.dataset.row = r.row;
 
     if(sec){
-      tr.className='row-section';
-      tr.innerHTML=`<td class="col-b">${cells.B||''}</td><td class="col-c" colspan="8" style="font-weight:700;color:#2d5e20;font-size:12px;letter-spacing:.3px">${cells.C||''}</td>`;
+      tr.className = 'row-section';
+      tr.innerHTML = `<td class="col-b">${cells.B||''}</td><td class="col-c" colspan="8" style="font-weight:700;color:#2d5e20;font-size:12px;letter-spacing:.3px">${cells.C||''}</td>`;
       tbody.appendChild(tr);
       return;
     }
 
     if(changed) tr.classList.add('changed-row');
-    if(q&&((cells.C||'')+(cells.I||'')+(cells.H||'')).toLowerCase().includes(q)) tr.classList.add('search-match');
+    if(q && ((cells.C||'')+(cells.I||'')+(cells.H||'')).toLowerCase().includes(q)) tr.classList.add('search-match');
 
-    tr.innerHTML=`
+    // Build row
+    tr.innerHTML = `
       <td class="col-b">${cells.B||''}</td>
       <td class="col-c">${cells.C||''}</td>
       <td class="check-cell"><div class="check-wrap"><input type="checkbox" data-row="${r.row}" data-col="D" ${s.D?'checked':''}></div></td>
       <td class="check-cell"><div class="check-wrap"><input type="checkbox" data-row="${r.row}" data-col="E" ${s.E?'checked':''}></div></td>
       <td class="check-cell"><div class="check-wrap"><input type="checkbox" data-row="${r.row}" data-col="F" ${s.F?'checked':''}></div></td>
       <td class="check-cell"><div class="check-wrap"><input type="checkbox" data-row="${r.row}" data-col="G" ${s.G?'checked':''}></div></td>
-      <td style="min-width:150px;max-width:200px;padding:2px"><input class="col-h-input" list="vendorList" data-row="${r.row}" data-col="H" value="${escHtml(s.H)}" placeholder="— select or type —"></td>
-      <td style="min-width:280px;max-width:400px;padding:2px"><textarea class="col-i-input" data-row="${r.row}" readonly style="width:100%;border:none;background:transparent;font-family:Arial,sans-serif;font-size:11px;color:#555;padding:3px 6px;cursor:default;resize:none;overflow:hidden;line-height:1.4">${escHtml(s.I)}</textarea></td>
-      <td class="submittal-cell"><div class="check-wrap"><input type="checkbox" class="submittal-check" data-row="${r.row}" data-col="J" ${s.J?'checked':''}></div></td>`;
+      <td style="min-width:150px;max-width:200px;padding:2px"><input class="col-h-input" data-row="${r.row}" data-col="H" value="${escHtml(s.H)}" placeholder="—"></td>
+      <td style="min-width:280px;max-width:400px;padding:2px"><textarea class="col-i-input" data-row="${r.row}" data-col="I" readonly style="width:100%;border:none;background:transparent;font-family:Arial,sans-serif;font-size:11px;color:#555;padding:3px 6px;cursor:default;resize:none;overflow:hidden;line-height:1.4">${escHtml(s.I)}</textarea></td>
+      <td class="submittal-cell"><div class="check-wrap"><input type="checkbox" class="submittal-check" data-row="${r.row}" data-col="J" ${s.J?'checked':''}></div></td>
+    `;
     tbody.appendChild(tr);
   });
 
+  // Attach listeners
   tbody.querySelectorAll('input[type=checkbox]').forEach(cb=>{
     cb.addEventListener('change', e=>{
       const row=+e.target.dataset.row, col=e.target.dataset.col;
-      state[row][col]=e.target.checked;
-      markRow(row); updateBadge(); updateCounters();
+      state[row][col] = e.target.checked;
+      markRow(row);
+      updateBadge();
+      updateCounters();
     });
   });
   tbody.querySelectorAll('input.col-h-input').forEach(inp=>{
-    inp.addEventListener('input', e=>{ state[+e.target.dataset.row].H=e.target.value; markRow(+e.target.dataset.row); updateBadge(); });
+    inp.addEventListener('input', e=>{
+      const row=+e.target.dataset.row;
+      state[row].H = e.target.value;
+      markRow(row);
+      updateBadge();
+    });
   });
 
+  // Auto-resize all comment textareas after render
   requestAnimationFrame(()=>{
     tbody.querySelectorAll('textarea.col-i-input').forEach(ta=>autoResize(ta));
     updateCounters();
   });
 }
 
-function doSearch(){
-  buildTable(document.getElementById('searchBox').value, document.getElementById('filterChanged').checked, document.getElementById('divisionFilter').value);
+function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function markRow(rowNum){
+  const tr = document.querySelector(`tr[data-row="${rowNum}"]`);
+  if(!tr) return;
+  if(isChanged(rowNum)) tr.classList.add('changed-row');
+  else tr.classList.remove('changed-row');
 }
+
+function doSearch(){
+  const q = document.getElementById('searchBox').value;
+  const changedOnly = document.getElementById('filterChanged').checked;
+  const divKey = document.getElementById('divisionFilter').value;
+  buildTable(q, changedOnly, divKey);
+}
+
 function clearSearch(){
   document.getElementById('searchBox').value='';
   document.getElementById('filterChanged').checked=false;
   document.getElementById('divisionFilter').value='all';
   buildTable();
 }
-function saveChanges(){ window.print(); }
+
+function saveChanges(){
+  window.print();
+}
 
 function exportCSV(){
-  const cols=['CSI Division','Description','GC Furnish (D)','GC Install (E)','Owner Furnish (F)','Owner Install (G)','Vendor/Supplier (H)','Comments & Notes (I)','Submittal Required (J)'];
-  const rows=[cols.join(',')];
+  const cols = ['CSI Division','Description','GC Furnish (D)','GC Install (E)','Owner Furnish (F)','Owner Install (G)','Vendor/Supplier (H)','Comments & Notes (I)','Submittal Required (J)'];
+  const rows = [cols.join(',')];
   RAW.forEach(r=>{
     if(isSection(r)){
-      rows.push([r.cells.B||'',`"${(r.cells.C||'').replace(/"/g,'""')}"`, '','','','','','',''].join(','));
+      rows.push([r.cells.B||'', `"${(r.cells.C||'').replace(/"/g,'""')}"`, '','','','','','',''].join(','));
     } else {
-      const s=state[r.row];
-      rows.push([r.cells.B||'',`"${(r.cells.C||'').replace(/"/g,'""')}"`,s.D?'X':'',s.E?'X':'',s.F?'X':'',s.G?'X':'',`"${(s.H||'').replace(/"/g,'""')}"`,`"${(s.I||'').replace(/"/g,'""')}"`,s.J?'Y':''].join(','));
+      const s = state[r.row];
+      rows.push([
+        r.cells.B||'',
+        `"${((r.cells.C||'')).replace(/"/g,'""')}"`,
+        s.D?'X':'',
+        s.E?'X':'',
+        s.F?'X':'',
+        s.G?'X':'',
+        `"${(s.H||'').replace(/"/g,'""')}"`,
+        `"${(s.I||'').replace(/"/g,'""')}"`,
+        s.J?'Y':''
+      ].join(','));
     }
   });
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([rows.join('\n')],{type:'text/csv'}));
-  a.download='Responsibility_Matrix_Canyon_Lake_122.csv';
+  const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Responsibility_Matrix_Canyon_Lake_122.csv';
   a.click();
 }
 
+// Init
 buildTable();
 </script>
-
-<datalist id="vendorList"><option value="1st Fire Protection"><option value="ASI Global"><option value="DigiCom"><option value="DigiCom & McCoy's"><option value="EA Construction"><option value="GC Subcontractor"><option value="EEI"><option value="Koala Kare"><option value="McCoy's & MTZ"><option value="McCoy's Carpenters"><option value="MHSC & MTZ"><option value="Mount-It!"><option value="MTZ Electrical"><option value="PEC"><option value="Pro-Access Systems"><option value="Sign Crafters"><option value="Stealth"><option value="Sunbelt/CT Darnell"><option value="TCS & MTZ"><option value="Texas Water"><option value="TrueLook"><option value="UES"><option value="ULINE"><option value="Varies"></datalist>
 </body>
 </html>
